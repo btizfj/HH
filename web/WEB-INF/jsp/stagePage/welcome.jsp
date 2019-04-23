@@ -34,6 +34,15 @@
             <a class="nav-link" href="${pageContext.request.contextPath}/reservationPage">预约管理</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/addRoomPage">添加客房</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/roomManagementPage">管理客房</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/orderCommentPage">客户评价</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/logout">退出登录</a>
         </li>
     </ul>

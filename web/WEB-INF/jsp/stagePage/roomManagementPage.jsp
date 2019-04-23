@@ -6,13 +6,13 @@
   Date: 2019/4/19
   Time: 20:37
   To change this template use File | Settings | File Templates.
-  用户和理发师的“预约管理界面”
+  用户和理发师的“消息管理界面”
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>消息管理界面</title>
+    <title>客房管理界面</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
@@ -31,7 +31,16 @@
             <a class="nav-link" href="${pageContext.request.contextPath}/messagePage">消息管理</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#" style="color: #1f6f4a">预约管理</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/reservationPage">预约管理</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/addRoomPage">添加客房</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="color: #1f6f4a">管理客房</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/orderCommentPage">客户评价</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/logout">退出登录</a>
@@ -47,46 +56,30 @@
                 <thead>
                 <tr>
                     <th>编号</th>
-                    <th>预约时间</th>
-                    <th>预约价格</th>
-                    <th>操作时间</th>
-                    <th>是否处理</th>
-                    <th>接受订单</th>
-                    <th>取消订单</th>
+                    <th>房间编号</th>
+                    <th>房间类型</th>
+                    <th>房间价格</th>
+                    <th>房间图片</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${orders}" var="order" varStatus="stat">
+                <c:forEach items="${rooms}" var="room" varStatus="stat">
                     <tr>
                         <td>${stat.index+1}</td>
-                        <td>${reservationTime[order.r_time]}</td>
-                        <td>${order.r_price}</td>
-                        <td>${order.time}</td>
-                        <td>${orderState[order.isProcess]}</td>
-                        <c:choose>
-                            <c:when test="${order.isProcess == 0}">
-                                <td><a href="${pageContext.request.contextPath}/acceptOrderById?id=${order.id}" class="text-primary">接受</a></td>
-                            </c:when>
-                            <c:when test="${order.isProcess == 1}">
-                                <td><a class="text-primary">已接受</a></td>
-                            </c:when>
-                            <c:when test="${order.isProcess == 2}">
-                                <td><a class="text-primary">已取消</a></td>
-                            </c:when>
-                        </c:choose>
-                        <c:choose>
-                            <c:when test="${order.isProcess == 0}">
-                                <td><a href="${pageContext.request.contextPath}/cancelOrderById?id=${order.id}" class="text-primary">取消</a></td>
-                            </c:when>
-                            <c:when test="${order.isProcess == 1}">
-                                <td><a class="text-primary">已接受</a></td>
-                            </c:when>
-                            <c:when test="${order.isProcess == 2}">
-                                <td><a class="text-primary">已取消</a></td>
-                            </c:when>
-                        </c:choose>
-                        <td><a href="${pageContext.request.contextPath}/deleteOrderById?id=${order.id}" class="text-primary">删除</a></td>
+                        <td>${room.room_id}</td>
+                        <td>${roomType[room.room_type]}</td>
+                        <td>${room.price}</td>
+                        <td><a href="${pageContext.request.contextPath}/upload/${room.pic}" class="text-primary">查看</a></td>
+                        <td><a href="${pageContext.request.contextPath}/deleteRoomById?id=${room.id}" class="text-primary">删除</a></td>
+                        <%--<c:choose>--%>
+                            <%--<c:when test="${room.isBook == 0}">--%>
+                                <%--<td style="color: green">预定</td>--%>
+                            <%--</c:when>--%>
+                            <%--<c:otherwise>--%>
+                                <%--<td style="color: red">客满</td>--%>
+                            <%--</c:otherwise>--%>
+                        <%--</c:choose>--%>
                     </tr>
                 </c:forEach>
                 <!-- 分页标签 -->
@@ -96,7 +89,7 @@
                                 pageIndex="${requestScope.pageModel.pageIndex}"
                                 pageSize="${requestScope.pageModel.pageSize}"
                                 recordCount="${requestScope.pageModel.recordCount}"
-                                submitUrl="${pageContext.request.contextPath}/reservationPage?pageIndex={0}"/>
+                                submitUrl="${pageContext.request.contextPath}/roomManagementPage?pageIndex={0}"/>
                     </td>
                 </tr>
                 </tbody>

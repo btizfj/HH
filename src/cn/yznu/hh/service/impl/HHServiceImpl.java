@@ -2,6 +2,7 @@ package cn.yznu.hh.service.impl;
 
 import cn.yznu.hh.bean.Message;
 import cn.yznu.hh.bean.Order;
+import cn.yznu.hh.bean.Room;
 import cn.yznu.hh.bean.User;
 import cn.yznu.hh.dao.UserDao;
 import cn.yznu.hh.service.HHService;
@@ -38,13 +39,12 @@ public class HHServiceImpl implements HHService {
     }
 
     @Override
-    public List<Message> findMessageByPage(Integer id, PageModel pageModel) {
+    public List<Message> findAdminMessageByPage(PageModel pageModel) {
         Map<String,Object> params = new HashMap<>();
-        int recordCount = userDao.countMessageByUserId(id);
+        int recordCount = userDao.countAdminMessage();
         pageModel.setRecordCount(recordCount);
         if(recordCount > 0){
             /** 开始分页查询数据：查询第几页的数据 */
-            params.put("id", id);
             params.put("pageModel", pageModel);
         }
         List<Message> messages = userDao.selectMessageByPage(params);
@@ -76,13 +76,8 @@ public class HHServiceImpl implements HHService {
     }
 
     @Override
-    public List<User> findAllBarber() {
-        return userDao.selectAllBarber();
-    }
-
-    @Override
-    public void saveOrder(int id, Integer barber_id, Integer r_time, Integer r_price, Date time) {
-        userDao.insertOrder(id,barber_id,r_time,r_price,time);
+    public void saveOrder(int id, Integer room_id, Date time) {
+        userDao.insertOrder(id,room_id,time);
     }
 
     @Override
@@ -91,13 +86,12 @@ public class HHServiceImpl implements HHService {
     }
 
     @Override
-    public List<Order> findBarberOrderByPage(int id, PageModel pageModel) {
+    public List<Order> findAdminOrderByPage(PageModel pageModel) {
         Map<String,Object> params = new HashMap<>();
-        int recordCount = userDao.countBarberOrderByUserId(id);
+        int recordCount = userDao.countAdminOrder();
         pageModel.setRecordCount(recordCount);
         if(recordCount > 0){
             /** 开始分页查询数据：查询第几页的数据 */
-            params.put("id", id);
             params.put("pageModel", pageModel);
         }
         List<Order> orders = userDao.selectBarberOrderByPage(params);
@@ -176,5 +170,77 @@ public class HHServiceImpl implements HHService {
     @Override
     public void saveBarberToDB(String username, String password, String b_name, Integer usertype, String phonenumber) {
         userDao.insertBarberToDB(username,password,b_name,usertype,phonenumber);
+    }
+
+    @Override
+    public List<Room> findAllRoomByPage(PageModel pageModel) {
+        Map<String,Object> params = new HashMap<>();
+        int recordCount = userDao.countAllRoom();
+        pageModel.setRecordCount(recordCount);
+        if(recordCount > 0){
+            /** 开始分页查询数据：查询第几页的数据 */
+            params.put("pageModel", pageModel);
+        }
+        List<Room> rooms = userDao.selectAllRoomByPage(params);
+        return rooms;
+    }
+
+    @Override
+    public void removeRoomById(Integer id) {
+        userDao.deleteRoomById(id);
+    }
+
+    @Override
+    public void saveRoomToDB(String room_id, String room_type, String price, String filename) {
+        userDao.insertRoomToDB(room_id,room_type,price,filename);
+    }
+
+    @Override
+    public void modifyRoomBookedState(Integer room_id) {
+        userDao.updateRoomBookedState(room_id);
+    }
+
+    @Override
+    public Integer findOrderRoomIdByUserId(Integer id) {
+        return userDao.selectOrderRoomIdByUserId(id);
+    }
+
+    @Override
+    public Room findRoomById(Integer room_id) {
+        return userDao.selectRoomById(room_id);
+    }
+
+    @Override
+    public void modifyRoomCancelBookedState(Integer room_id) {
+        userDao.updateRoomCancelBookedState(room_id);
+    }
+
+    @Override
+    public List<Message> findUserMessageByPage(int id, PageModel pageModel) {
+        Map<String,Object> params = new HashMap<>();
+        int recordCount = userDao.countUserMessage(id);
+        pageModel.setRecordCount(recordCount);
+        if(recordCount > 0){
+            /** 开始分页查询数据：查询第几页的数据 */
+            params.put("pageModel", pageModel);
+            params.put("id", id);
+        }
+        List<Message> messages = userDao.selectUserMessageByPage(params);
+        return messages;
+    }
+
+    @Override
+    public void setRoomEmpty(Integer room_id) {
+        userDao.updateRoomEmpty(room_id);
+    }
+
+    @Override
+    public void setOrderExitById(Integer id) {
+        userDao.updateOrderExitById(id);
+    }
+
+    @Override
+    public void saveCommentInToOrder(String comment, Integer order_id) {
+        userDao.insertCommentInToOrder(comment,order_id);
     }
 }

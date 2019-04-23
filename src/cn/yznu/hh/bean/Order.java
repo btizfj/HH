@@ -9,23 +9,21 @@ public class Order implements java.io.Serializable {
 
     private int id;
     private Integer user_id;
-    private Integer barber_id;
-    private String b_name;
-    private Integer r_time;
+    private Room room;
     private Date time;
-    private Integer r_price;
     private Integer isProcess;
+    private String comment;
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     public int getId() {
         return id;
-    }
-
-    public String getB_name() {
-        return b_name;
-    }
-
-    public void setB_name(String b_name) {
-        this.b_name = b_name;
     }
 
     public void setId(int id) {
@@ -40,20 +38,12 @@ public class Order implements java.io.Serializable {
         this.user_id = user_id;
     }
 
-    public Integer getBarber_id() {
-        return barber_id;
+    public Room getRoom() {
+        return room;
     }
 
-    public void setBarber_id(Integer barber_id) {
-        this.barber_id = barber_id;
-    }
-
-    public Integer getR_time() {
-        return r_time;
-    }
-
-    public void setR_time(Integer r_time) {
-        this.r_time = r_time;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     public Date getTime() {
@@ -62,14 +52,6 @@ public class Order implements java.io.Serializable {
 
     public void setTime(Date time) {
         this.time = time;
-    }
-
-    public Integer getR_price() {
-        return r_price;
-    }
-
-    public void setR_price(Integer r_price) {
-        this.r_price = r_price;
     }
 
     public Integer getIsProcess() {

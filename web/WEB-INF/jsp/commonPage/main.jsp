@@ -42,12 +42,12 @@
         <div class="container-fluid" align="center">
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <h1 style="color: white;margin-top: 140px" align="center">理发店预约系统</h1>
+                    <h1 style="color: white;margin-top: 140px" align="center">酒店管家系统</h1>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                    <h5 style="color: #B8D4D8;margin-top: 50px;margin-bottom: 50px" align="center">你就是最亮的仔！</h5>
+                    <h5 style="color: #B8D4D8;margin-top: 50px;margin-bottom: 50px" align="center">尽心尽力的服务，无所不在的关怀。</h5>
                 </div>
             </div>
             <div class="row">

@@ -6,13 +6,13 @@
   Date: 2019/4/19
   Time: 20:37
   To change this template use File | Settings | File Templates.
-  用户和理发师的“消息管理界面”
+  用户和理发师的“预约管理界面”
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>消息管理界面</title>
+    <title>预约管理界面</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
@@ -25,7 +25,7 @@
 <nav class="navbar navbar-expand-sm bg-light">
     <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/welcome">欢迎登陆</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/welcome" >欢迎登陆</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/messagePage">消息管理</a>
@@ -34,10 +34,13 @@
             <a class="nav-link" href="${pageContext.request.contextPath}/reservationPage">预约管理</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#" style="color: #1f6f4a">我要预约</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/addRoomPage">添加客房</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/commentOrder">评价订单</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/roomManagementPage">管理客房</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" style="color: #1f6f4a">客户评价</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/logout">退出登录</a>
@@ -47,7 +50,6 @@
 <br>
 
 <div class="container">
-    <h1 align="center" style="margin-top: 40px">欢迎预约！</h1>
     <div class="row" style="margin-top: 10px">
         <div class="table-responsive">
             <table class="table table-bordered">
@@ -58,27 +60,30 @@
                     <th>房间类型</th>
                     <th>房间价格</th>
                     <th>房间图片</th>
-                    <th>预定房间</th>
+                    <th>预定时间</th>
+                    <th>预约状态</th>
+                    <th>客户评价</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${rooms}" var="room" varStatus="stat">
+                <c:forEach items="${orders}" var="order" varStatus="stat">
                     <tr>
                         <td>${stat.index+1}</td>
-                        <td>${room.room_id}</td>
-                        <td>${roomType[room.room_type]}</td>
-                        <td>${room.price}</td>
-                        <td><a href="${pageContext.request.contextPath}/upload/${room.pic}" class="text-primary">查看</a>
-                        </td>
-                            <%--<td><a href="${pageContext.request.contextPath}/deleteRoomById?id=${room.id}" class="text-primary">删除</a></td>--%>
-                        <c:choose>
-                            <c:when test="${room.isBook == 0}">
-                                <td style="color: green"><a href="${pageContext.request.contextPath}/userBookRoomById?id=${room.id}" target="_blank">预定</a></td>
-                            </c:when>
-                            <c:otherwise>
-                                <td style="color: red">客满</td>
-                            </c:otherwise>
+                        <td>${order.room.room_id}</td>
+                        <td>${roomType[order.room.room_type]}</td>
+                        <td>${order.room.price}</td>
+                        <td><a href="${pageContext.request.contextPath}/upload/${order.room.pic}" class="text-primary">查看</a>
+                        <td><a class="text-primary">${order.time}</a>
+                        <td><a class="text-primary">${orderState[order.isProcess]}</a>
+                            <c:choose>
+                            <c:when test="${order.comment == null}">
+                        <td><a class="text-primary">暂无</a></td>
+                        </c:when>
+                        <c:otherwise>
+                            <td><a class="text-primary">${order.comment}</a></td>
+                        </c:otherwise>
                         </c:choose>
+
                     </tr>
                 </c:forEach>
                 <!-- 分页标签 -->
@@ -88,13 +93,14 @@
                                 pageIndex="${requestScope.pageModel.pageIndex}"
                                 pageSize="${requestScope.pageModel.pageSize}"
                                 recordCount="${requestScope.pageModel.recordCount}"
-                                submitUrl="${pageContext.request.contextPath}/userReservation?pageIndex={0}"/>
+                                submitUrl="${pageContext.request.contextPath}/orderCommentPage?pageIndex={0}"/>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
+
 </div>
 
 </body>

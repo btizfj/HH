@@ -12,7 +12,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>预约管理界面</title>
+    <title>消息管理界面</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
@@ -34,10 +34,13 @@
             <a class="nav-link" href="#" style="color: #1f6f4a">预约管理</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/userReservation">我要预约</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/addRoomPage">添加客房</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/commentOrder">评价订单</a>
+            <a class="nav-link" href="${pageContext.request.contextPath}/roomManagementPage">管理客房</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/orderCommentPage">客户评价</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/logout">退出登录</a>
@@ -53,12 +56,11 @@
                 <thead>
                 <tr>
                     <th>编号</th>
-                    <th>房间编号</th>
-                    <th>房间类型</th>
-                    <th>房间价格</th>
-                    <th>房间图片</th>
-                    <th>预定时间</th>
-                    <th>预约状态</th>
+                    <th>预约价格</th>
+                    <th>操作时间</th>
+                    <th>订单状态</th>
+                    <th>接受订单</th>
+                    <th>取消订单</th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -66,27 +68,38 @@
                 <c:forEach items="${orders}" var="order" varStatus="stat">
                     <tr>
                         <td>${stat.index+1}</td>
-                        <td>${order.room.room_id}</td>
-                        <td>${roomType[order.room.room_type]}</td>
                         <td>${order.room.price}</td>
-                        <td><a href="${pageContext.request.contextPath}/upload/${order.room.pic}" class="text-primary">查看</a>
-                        <td><a class="text-primary">${order.time}</a>
-                        <td><a class="text-primary">${orderState[order.isProcess]}</a>
+                        <td>${order.time}</td>
+                        <td>${orderState[order.isProcess]}</td>
                         <c:choose>
                             <c:when test="${order.isProcess == 0}">
-                                <td><a href="${pageContext.request.contextPath}/deleteOrderById?id=${order.id}" class="text-primary">取消预约</a></td>
+                                <td><a href="${pageContext.request.contextPath}/acceptOrderById?id=${order.id}" class="text-primary">接受</a></td>
                             </c:when>
-                        <c:when test="${order.isProcess == 1}">
-                            <td><a href="${pageContext.request.contextPath}/exitOrderById?id=${order.id}" class="text-primary">退房</a></td>
-                        </c:when>
-                        <c:when test="${order.isProcess == 2}">
-                            <td><a href="#" class="text-primary">已取消</a></td>
-                        </c:when>
-                        <c:when test="${order.isProcess == 3}">
-                            <td><a href="#" class="text-primary">已退房</a></td>
-                        </c:when>
+                            <c:when test="${order.isProcess == 1}">
+                                <td><a class="text-primary">已接受</a></td>
+                            </c:when>
+                            <c:when test="${order.isProcess == 2}">
+                                <td><a class="text-primary">已取消</a></td>
+                            </c:when>
+                            <c:when test="${order.isProcess == 3}">
+                                <td><a class="text-primary">已退房</a></td>
+                            </c:when>
                         </c:choose>
-
+                        <c:choose>
+                            <c:when test="${order.isProcess == 0}">
+                                <td><a href="${pageContext.request.contextPath}/cancelOrderById?id=${order.id}" class="text-primary">取消</a></td>
+                            </c:when>
+                            <c:when test="${order.isProcess == 1}">
+                                <td><a class="text-primary">已接受</a></td>
+                            </c:when>
+                            <c:when test="${order.isProcess == 2}">
+                                <td><a class="text-primary">已取消</a></td>
+                            </c:when>
+                            <c:when test="${order.isProcess == 3}">
+                                <td><a class="text-primary">已退房</a></td>
+                            </c:when>
+                        </c:choose>
+                        <td><a href="${pageContext.request.contextPath}/deleteOrderById?id=${order.id}" class="text-primary">删除</a></td>
                     </tr>
                 </c:forEach>
                 <!-- 分页标签 -->

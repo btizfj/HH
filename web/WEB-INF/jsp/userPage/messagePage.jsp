@@ -37,6 +37,9 @@
             <a class="nav-link" href="${pageContext.request.contextPath}/userReservation">我要预约</a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="${pageContext.request.contextPath}/commentOrder">评价订单</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="${pageContext.request.contextPath}/logout">退出登录</a>
         </li>
     </ul>
